@@ -1,0 +1,20 @@
+import { Config } from "./types";
+
+/**
+ *
+ */
+export function getConfig(): Config {
+  const host = process.env.HOST as string;
+  const path = process.env.HOSTPATH as string;
+  const port = parseInt(process.env.PORT as string);
+
+  if (!host || !path || !port) {
+    throw new Error("Incorrect config!");
+  }
+
+  return {
+    host,
+    path,
+    port,
+  };
+}
