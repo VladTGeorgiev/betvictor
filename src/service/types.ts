@@ -1,12 +1,6 @@
 export namespace BetVictor {
   export type BetVictorService = {
-    getData: (request?: BetVictor.Request.Type) => Promise<BetVictor.Response.Body>;
-  }
-
-  export namespace Request {
-    export interface Type {
-      language: string;
-    }
+    getData: (language?: string) => Promise<BetVictor.Response.Body>;
   }
 
   export namespace Response {
