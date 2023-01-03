@@ -2,6 +2,7 @@ export const supportedLanguages = ["en-gb", "de", "zh-cn"];
 
 export namespace V1Router {
   export namespace Endpoints {
+
     export namespace Sports {
       export namespace Response {
         export interface Sport {
@@ -14,6 +15,7 @@ export namespace V1Router {
         }
       }
     }
+
     export namespace Events {
       export namespace Response {
         export interface Event {
@@ -35,7 +37,7 @@ export namespace V1Router {
     export namespace Event {
       export namespace Response {
         export interface Body {
-          event: Event;
+          event: {};
         }
       }
     }

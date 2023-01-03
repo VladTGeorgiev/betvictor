@@ -19,7 +19,7 @@ export const getSports = async (
 ): Promise<V1Router.Endpoints.Sports.Response.Body> => {
   const { languages } = req.query as Record<string, string>;
   const languageCodes = languages ? languages.split(",") : ["en-gb"];
-  const result = new Map();
+  const result: Map<number, Sport> = new Map();
 
   for (const language of languageCodes) {
     const normalizedLanguageCode = language.trim().toLowerCase();

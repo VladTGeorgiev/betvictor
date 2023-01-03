@@ -75,7 +75,7 @@ export namespace BetVictor {
       p: string;
     }
 
-    interface Event {
+    export interface Event {
       id: number;
       event_type: string;
       event_path_id: number;
@@ -112,6 +112,14 @@ export namespace BetVictor {
         periodKey: string;
         clockStatus: string;
         marketSuspensionReason: string;
+        externalScoreboardConfiguration?: {
+          eventId: number;
+          sportId: number;
+          providerEventId: number;
+          provider: string;
+          providerDescription: string;
+          cdnUrl: string;
+        },
         inPlay: boolean;
         redCardA: number;
         redCardB: number;
