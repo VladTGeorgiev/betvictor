@@ -3,9 +3,12 @@ import bodyParser from 'body-parser';
 import express from "express";
 import NodeCache from "node-cache";
 import { getConfig } from "./config";
-import { createV1Router } from "./controller/v1";
-import { createBetVictorService } from "./service";
+import { createV1Router } from "./router/v1";
+import { createBetVictorService } from "./services/betvictor";
 
+/**
+ * Project entrypoint bootstrapping all necessary services and creating a server
+ */
 (async function () {
   const { host, path, port } = getConfig();
   const app = express();
@@ -16,12 +19,12 @@ import { createBetVictorService } from "./service";
     console.info(`BetVictor Proxy server listening on port ${port}!`)
   );
 
-  const cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
-  console.info("Cache service running...");
+  const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
+  console.info("CacheService running...");
 
   const service = await createBetVictorService(host, path, cache);
 
-  app.use("/v1", createV1Router(service));
+  app.use("/v1", createV1Router(service, cache));
 })().catch((e) => {
   console.error(e);
   process.exit(1);
