@@ -1,4 +1,4 @@
-export const supportedLanguages = ['en-gb' , 'de' , 'zh-cn'];
+export const supportedLanguages = ["en-gb", "de", "zh-cn"];
 
 export namespace V1Router {
   export namespace Endpoints {
@@ -19,10 +19,23 @@ export namespace V1Router {
         export interface Event {
           id: number;
           type: string;
-          desc: string;
+          desc: Record<string, string>;
         }
+
+        export interface SportEvents {
+          sportId: number;
+          sportEvents: Array<Event>;
+        }
+
         export interface Body {
-          events: Record<string, Array<Event>>;
+          events: Array<SportEvents>;
+        }
+      }
+    }
+    export namespace Event {
+      export namespace Response {
+        export interface Body {
+          event: Event;
         }
       }
     }

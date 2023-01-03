@@ -24,7 +24,7 @@ export async function getSportsResults(
   } else {
     const response = await service.getData(languageCode);
     const sports = response.result.sports.map((sport) => {
-      let desc: Record<string, string> = {};
+      const desc: Record<string, string> = {};
       desc[languageCode] = sport.desc;
 
       return {

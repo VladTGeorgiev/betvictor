@@ -19,6 +19,7 @@
         "max-len": "off",
         "no-underscore-dangle": "off",
         "arrow-body-style": "off",
+        "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",

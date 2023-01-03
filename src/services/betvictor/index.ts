@@ -1,8 +1,16 @@
 import axios from "axios";
 import NodeCache from "node-cache";
 import { supportedLanguages } from "../../router/v1/types";
+import { APIError } from "../../utils/errors";
 import { BetVictor } from "./types";
 
+/**
+ * Service ingesting data from BetVictor servers
+ * @param host
+ * @param path
+ * @param cache
+ * @return Promise<BetVictor.BetVictorService>
+ */
 export async function createBetVictorService(
   host: string,
   path: string,
@@ -28,7 +36,7 @@ export async function createBetVictorService(
 
       return response.data;
     } catch (error) {
-      throw new Error("Error fetching data");
+      throw new APIError(502, `BetVictor Service is unavailable`);
     }
   };
 
