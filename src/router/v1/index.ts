@@ -1,7 +1,7 @@
 import { Router } from "express";
 import NodeCache from "node-cache";
 import { BetVictor } from "../../services/betvictor/types";
-import { getEvent } from './event';
+import { getEvent } from "./event";
 import { getEvents } from "./events";
 import { getSports } from "./sports";
 
@@ -38,9 +38,9 @@ export function createV1Router(
 
   router.get(`/events/:eventId`, async (req, res, next) => {
     try {
-      const data = await getEvent(service, cache, req)
+      const data = await getEvent(service, cache, req);
 
-      res.send(data)
+      res.send(data);
     } catch (e) {
       next(e);
     }

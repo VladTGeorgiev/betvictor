@@ -105,7 +105,9 @@ function getSportsEventsData(
  * @param result
  * @return Array<SportEvents>
  */
-export function formatResponse(result: Map<number, Event & { sportId: number }>): Array<SportEvents> {
+export function formatResponse(
+  result: Map<number, Event & { sportId: number }>
+): Array<SportEvents> {
   const sportsEvents: Array<Event & { sportId: number }> = Array.from(
     result.values()
   );

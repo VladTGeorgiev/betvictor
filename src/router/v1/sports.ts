@@ -2,6 +2,7 @@ import { Request } from "express";
 import NodeCache from "node-cache";
 import { BetVictor } from "../../services/betvictor/types";
 import { getSportsResults } from "./helpers/sports";
+import { normalizeLanguages } from "./lib";
 import { V1Router } from "./types";
 import Sport = V1Router.Endpoints.Sports.Response.Sport;
 
@@ -18,13 +19,12 @@ export const getSports = async (
   req: Request
 ): Promise<V1Router.Endpoints.Sports.Response.Body> => {
   const { languages } = req.query as Record<string, string>;
-  const languageCodes = languages ? languages.split(",") : ["en-gb"];
+  const languageCodes = normalizeLanguages(languages);
   const result: Map<number, Sport> = new Map();
 
   for (const language of languageCodes) {
-    const normalizedLanguageCode = language.trim().toLowerCase();
     const sports: Array<Sport> = await getSportsResults(
-      normalizedLanguageCode,
+      language,
       cache,
       service
     );

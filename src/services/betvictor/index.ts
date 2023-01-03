@@ -1,8 +1,8 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import { supportedLanguages } from "../../router/v1/types";
 import { APIError } from "../../utils/errors";
 import { BetVictor } from "./types";
+import supportedLanguages = BetVictor.supportedLanguages;
 
 /**
  * Service ingesting data from BetVictor servers

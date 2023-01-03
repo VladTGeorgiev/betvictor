@@ -7,6 +7,7 @@ import {
   getEventData,
   mergeMarketsLanguages,
 } from "./helpers/event";
+import { normalizeLanguages } from "./lib";
 import { V1Router } from "./types";
 import Event = BetVictor.Response.Event;
 
@@ -21,37 +22,31 @@ export const getEvent = async (
   service: BetVictor.BetVictorService,
   cache: NodeCache,
   req: Request
-): Promise<any> => {
+): Promise<V1Router.Endpoints.Event.Response.Body> => {
   const { eventId } = req.params as Record<string, string>;
   const eId = eventId ? parseInt(eventId) : null;
 
   const { languages } = req.query as Record<string, string>;
-  const languageCodes = languages ? languages.split(",") : ["en-gb"];
+  const languageCodes = normalizeLanguages(languages);
 
   if (!eId) {
     throw new APIError(400, `EventId not provided or not in correct format`);
   }
 
-  const result: Map<number, any> = new Map();
+  const result: Map<number, V1Router.Endpoints.Event.Response.Event> =
+    new Map();
 
   for (const language of languageCodes) {
-    const normalizedLanguageCode = language.trim().toLowerCase();
-
-    const event: Event = await getEventData(
-      normalizedLanguageCode,
-      cache,
-      service,
-      eId
-    );
+    const event: Event = await getEventData(language, cache, service, eId);
 
     const desc: Record<string, string> = {};
     const oppADesc: Record<string, string> = {};
     const oppBDesc: Record<string, string> = {};
 
-    desc[normalizedLanguageCode] = event.desc;
-    oppADesc[normalizedLanguageCode] = event.oppADesc;
-    oppBDesc[normalizedLanguageCode] = event.oppBDesc;
-    const markets = formatMarkets(event, normalizedLanguageCode);
+    desc[language] = event.desc;
+    oppADesc[language] = event.oppADesc;
+    oppBDesc[language] = event.oppBDesc;
+    const markets = formatMarkets(event, language);
 
     const existing = result.get(event.id);
     if (!existing) {
@@ -75,7 +70,13 @@ export const getEvent = async (
     });
   }
 
+  const event = result.get(eId);
+
+  if (!event) {
+    throw new APIError(404, `EventId: ${eventId} not found`);
+  }
+
   return {
-    event: result.get(eId),
+    event,
   };
 };

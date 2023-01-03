@@ -1,7 +1,9 @@
 import NodeCache from "node-cache";
 import { BetVictor } from "../../../services/betvictor/types";
 import { APIError } from "../../../utils/errors";
+import { V1Router } from "../types";
 import Event = BetVictor.Response.Event;
+import Market = V1Router.Endpoints.Event.Response.Market;
 
 /**
  * Function obtaining event from either the endpoint's cache or from BetVictor service
@@ -18,7 +20,7 @@ export async function getEventData(
   eventId: number
 ): Promise<Event> {
   const cacheKey = `event:${languageCode}:${eventId}`;
-  const cachedResponse = cache.get<any>(cacheKey);
+  const cachedResponse = cache.get<Event>(cacheKey);
 
   if (cachedResponse) {
     return cachedResponse;
@@ -45,11 +47,12 @@ export async function getEventData(
  * Function formatting Market object with languageCode in the properties of the object where different languages are used
  * @param event
  * @param normalizedLanguageCode
+ * @return Array<V1Router.Endpoints.Event.Response.Market>
  */
 export function formatMarkets(
   event: BetVictor.Response.Event,
   normalizedLanguageCode: string
-) {
+): Array<Market> {
   return event.markets.map((market) => {
     const des: Record<string, string> = {};
     const prdDsc: Record<string, string> = {};
@@ -75,25 +78,39 @@ export function formatMarkets(
  * Function merging Markets objects with properties in different languages
  * @param existingMarkets
  * @param currentMarkets
+ * @return Array<V1Router.Endpoints.Event.Response.Market>
  */
 export function mergeMarketsLanguages(
-  existingMarkets: any,
-  currentMarkets: any
-) {
-  const map = new Map();
+  existingMarkets: Array<Market>,
+  currentMarkets: Array<Market>
+): Array<Market> {
+  const map: Map<number, Market> = new Map();
 
-  existingMarkets.forEach((item: any) => map.set(item.id, item));
-  currentMarkets.forEach((item: any) => {
-    const existing = map.get(item.id);
-    map.set(item.id, {
+  existingMarkets.forEach((item: Market) => map.set(item.id, item));
+
+  for (const market of currentMarkets) {
+    const existing = map.get(market.id);
+    if (!existing) {
+      map.set(market.id, {
+        ...market,
+        des: { ...market.des },
+        prdDsc: { ...market.prdDsc },
+        pltDes: { ...market.pltDes },
+        p: { ...market.p },
+      });
+
+      continue;
+    }
+
+    map.set(market.id, {
       ...existing,
-      ...item,
-      des: { ...existing.des, ...item.des },
-      prdDsc: { ...existing.prdDsc, ...item.prdDsc },
-      pltDes: { ...existing.pltDes, ...item.pltDes },
-      p: { ...existing.p, ...item.p },
+      ...market,
+      des: { ...existing.des, ...market.des },
+      prdDsc: { ...existing.prdDsc, ...market.prdDsc },
+      pltDes: { ...existing.pltDes, ...market.pltDes },
+      p: { ...existing.p, ...market.p },
     });
-  });
+  }
 
   return Array.from(map.values());
 }

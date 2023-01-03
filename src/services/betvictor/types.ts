@@ -1,4 +1,6 @@
 export namespace BetVictor {
+  export const supportedLanguages = ["en-gb", "de", "zh-cn"];
+
   export type BetVictorService = {
     getData: (language?: string) => Promise<BetVictor.Response.Body>;
   };
@@ -26,7 +28,7 @@ export namespace BetVictor {
       sport_id: number;
     }
 
-    interface Outcomes {
+    export interface Outcomes {
       rcNum: number;
       pr: number;
       price: {
@@ -119,7 +121,7 @@ export namespace BetVictor {
           provider: string;
           providerDescription: string;
           cdnUrl: string;
-        },
+        };
         inPlay: boolean;
         redCardA: number;
         redCardB: number;

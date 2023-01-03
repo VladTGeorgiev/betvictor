@@ -1,7 +1,8 @@
 import { Config } from "./types";
 
 /**
- *
+ * Function loading application configuration from .env file
+ * @return Config
  */
 export function getConfig(): Config {
   const host = process.env.HOST as string;

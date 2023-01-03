@@ -2,6 +2,7 @@ import { Request } from "express";
 import NodeCache from "node-cache";
 import { BetVictor } from "../../services/betvictor/types";
 import { formatResponse, getEventsResults } from "./helpers/events";
+import { normalizeLanguages } from "./lib";
 import { V1Router } from "./types";
 import SportEvents = V1Router.Endpoints.Events.Response.SportEvents;
 import Event = V1Router.Endpoints.Events.Response.Event;
@@ -19,16 +20,14 @@ export const getEvents = async (
   req: Request
 ): Promise<V1Router.Endpoints.Events.Response.Body> => {
   const { languages, sportId } = req.query as Record<string, string>;
-  const languageCodes = languages ? languages.split(",") : ["en-gb"];
+  const languageCodes = normalizeLanguages(languages);
   const sport = sportId ? parseInt(sportId) : undefined;
 
   const result: Map<number, Event & { sportId: number }> = new Map();
 
   for (const language of languageCodes) {
-    const normalizedLanguageCode = language.trim().toLowerCase();
-
     const sportsEvents: Array<SportEvents> = await getEventsResults(
-      normalizedLanguageCode,
+      language,
       cache,
       service,
       sport
