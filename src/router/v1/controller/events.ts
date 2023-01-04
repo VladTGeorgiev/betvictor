@@ -1,9 +1,9 @@
 import { Request } from "express";
 import NodeCache from "node-cache";
-import { BetVictor } from "../../services/betvictor/types";
-import { formatResponse, getEventsResults } from "./helpers/events";
-import { normalizeLanguages } from "./lib";
-import { V1Router } from "./types";
+import { BetVictor } from "../../../services/betvictor/types";
+import { formatResponse, getEventsResults } from "../helpers/events";
+import { normalizeLanguages } from "../lib";
+import { V1Router } from "../types";
 import SportEvents = V1Router.Endpoints.Events.Response.SportEvents;
 import Event = V1Router.Endpoints.Events.Response.Event;
 

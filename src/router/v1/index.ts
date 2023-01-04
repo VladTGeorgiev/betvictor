@@ -1,9 +1,9 @@
 import { Router } from "express";
 import NodeCache from "node-cache";
 import { BetVictor } from "../../services/betvictor/types";
-import { getEvent } from "./event";
-import { getEvents } from "./events";
-import { getSports } from "./sports";
+import { getEvent } from "./controller/event";
+import { getEvents } from "./controller/events";
+import { getSports } from "./controller/sports";
 
 /**
  * V1 Router

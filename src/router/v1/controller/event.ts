@@ -1,14 +1,14 @@
 import { Request } from "express";
 import NodeCache from "node-cache";
-import { BetVictor } from "../../services/betvictor/types";
-import { APIError } from "../../utils/errors";
+import { BetVictor } from "../../../services/betvictor/types";
+import { APIError } from "../../../utils/errors";
 import {
   formatMarkets,
   getEventData,
   mergeMarketsLanguages,
-} from "./helpers/event";
-import { normalizeLanguages } from "./lib";
-import { V1Router } from "./types";
+} from "../helpers/event";
+import { normalizeLanguages } from "../lib";
+import { V1Router } from "../types";
 import Event = BetVictor.Response.Event;
 
 /**
