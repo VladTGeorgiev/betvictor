@@ -23,13 +23,13 @@ export const getEvent = async (
   cache: NodeCache,
   req: Request
 ): Promise<V1Router.Endpoints.Event.Response.Body> => {
-  const { eventId } = req.params as Record<string, string>;
-  const eId = eventId ? parseInt(eventId) : null;
+  const query = req.query as Record<string, string>;
+  const params = req.params as Record<string, string>;
+  const eventId = params?.eventId ? parseInt(params?.eventId) : null;
 
-  const { languages } = req.query as Record<string, string>;
-  const languageCodes = normalizeLanguages(languages);
+  const languageCodes = normalizeLanguages(query?.languages);
 
-  if (!eId) {
+  if (!eventId) {
     throw new APIError(400, `EventId not provided or not in correct format`);
   }
 
@@ -37,7 +37,7 @@ export const getEvent = async (
     new Map();
 
   for (const language of languageCodes) {
-    const event: Event = await getEventData(language, cache, service, eId);
+    const event: Event = await getEventData(language, cache, service, eventId);
 
     const desc: Record<string, string> = {};
     const oppADesc: Record<string, string> = {};
@@ -70,10 +70,10 @@ export const getEvent = async (
     });
   }
 
-  const event = result.get(eId);
+  const event = result.get(eventId);
 
   if (!event) {
-    throw new APIError(404, `EventId: ${eventId} not found`);
+    throw new APIError(404, `EventId: ${query.eventId} not found`);
   }
 
   return {

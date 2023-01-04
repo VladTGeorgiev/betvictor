@@ -36,13 +36,11 @@ export async function createBetVictorService(
 
       return response.data;
     } catch (error) {
-      throw new APIError(502, `BetVictor Service is unavailable`);
+      throw new APIError(502, `BetVictor API is unavailable`);
     }
   };
 
-  await getData().then(() => {
-    console.info("BetVictorService running...");
-  });
+  console.info("BetVictorService running...");
 
   return {
     getData,

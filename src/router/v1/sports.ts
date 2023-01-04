@@ -18,8 +18,8 @@ export const getSports = async (
   cache: NodeCache,
   req: Request
 ): Promise<V1Router.Endpoints.Sports.Response.Body> => {
-  const { languages } = req.query as Record<string, string>;
-  const languageCodes = normalizeLanguages(languages);
+  const query = req.query as Record<string, string>;
+  const languageCodes = normalizeLanguages(query?.languages);
   const result: Map<number, Sport> = new Map();
 
   for (const language of languageCodes) {

@@ -7,7 +7,8 @@
     "build": "rm -rf ./build && tsc",
     "start": "ts-node src/index.ts",
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require ts-node/register test/**/*.spec.ts --exit",
+    "coverage": "nyc npm run test",
     "prettier": "npm run lint && npx prettier --write .",
     "lint": "eslint . --ext .ts --fix"
   },
@@ -21,15 +22,25 @@
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.4",
     "@types/express": "^4.17.15",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
+    "@types/sinon": "^10.0.13",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
+    "chai": "^4.3.7",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "mocha": "^10.2.0",
+    "nock": "^13.2.9",
     "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
     "prettier": "^2.8.1",
+    "sinon": "^15.0.1",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   }

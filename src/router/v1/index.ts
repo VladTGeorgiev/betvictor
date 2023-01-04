@@ -18,9 +18,7 @@ export function createV1Router(
 
   router.get(`/sports`, async (req, res, next) => {
     try {
-      const data = await getSports(service, cache, req);
-
-      res.send(data);
+      res.send(await getSports(service, cache, req));
     } catch (e) {
       next(e);
     }
@@ -28,9 +26,7 @@ export function createV1Router(
 
   router.get(`/events`, async (req, res, next) => {
     try {
-      const data = await getEvents(service, cache, req);
-
-      res.send(data);
+      res.send(await getEvents(service, cache, req));
     } catch (e) {
       next(e);
     }
@@ -38,9 +34,7 @@ export function createV1Router(
 
   router.get(`/events/:eventId`, async (req, res, next) => {
     try {
-      const data = await getEvent(service, cache, req);
-
-      res.send(data);
+      res.send(await getEvent(service, cache, req));
     } catch (e) {
       next(e);
     }

@@ -19,9 +19,9 @@ export const getEvents = async (
   cache: NodeCache,
   req: Request
 ): Promise<V1Router.Endpoints.Events.Response.Body> => {
-  const { languages, sportId } = req.query as Record<string, string>;
-  const languageCodes = normalizeLanguages(languages);
-  const sport = sportId ? parseInt(sportId) : undefined;
+  const query = req.query as Record<string, string>;
+  const languageCodes = normalizeLanguages(query?.languages);
+  const sport = query?.sportId ? parseInt(query?.sportId) : undefined;
 
   const result: Map<number, Event & { sportId: number }> = new Map();
 
