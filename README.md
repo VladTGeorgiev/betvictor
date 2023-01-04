@@ -7,12 +7,26 @@ This project is a proxy server formatting and relaying data from BetVictor API.
 - [Node.js](https://nodejs.org/en//)
 - [npm](https://www.npmjs.com/)
 
-
 ## Installation
 
 ```bash
 npm install
 ```
+
+## Start
+
+To start the application, run the following command in your terminal from the root directory of the project
+
+```bash
+npm run start
+```
+
+## Caching
+
+[node-cache](https://www.npmjs.com/package/node-cache) is used to provide in-memory storage. The implementation is two layered, where data
+is ingested from BetVictor API upon starting of the application and then used to serve the controller requests.
+Each endpoint also has caching layer where, if the same request is received within the cache lifecycle,
+the response will be taken from the cache, rather than from the BetVictorService, or BetVictor API.
 
 ## Endpoints
 
@@ -21,6 +35,7 @@ npm install
 Returns a list of sports. Accepts optional "languages" parameter ("en-gb", "de", "zh-cn")
 
 Request:
+
 ```bash
 GET /api/v1/sports?languages=en-gb,de HTTP/1.1
 Host: localhost:3000
@@ -29,6 +44,7 @@ User-Agent: RapidAPI/4.1.0 (Macintosh; OS X/13.1.0) GCDHTTPRequest
 ```
 
 Response:
+
 ```json
 {
   "sports": [
@@ -66,6 +82,7 @@ Response:
 Returns a list of events. Accepts optional "sportId" and "languages" parameters ("en-gb", "de", "zh-cn")
 
 Request:
+
 ```bash
 GET /api/v1/events?sportId=100&languages=en-gb,de HTTP/1.1
 Host: localhost:3000
@@ -74,6 +91,7 @@ User-Agent: RapidAPI/4.1.0 (Macintosh; OS X/13.1.0) GCDHTTPRequest
 ```
 
 Response:
+
 ```json
 {
   "events": [
@@ -116,6 +134,7 @@ Response:
 Returns an event. Accepts "languages" parameter ("en-gb", "de", "zh-cn")
 
 Request:
+
 ```bash
 GET /api/v1/events/1850930600?languages=en-gb,de HTTP/1.1
 Host: localhost:3000
@@ -124,6 +143,7 @@ User-Agent: RapidAPI/4.1.0 (Macintosh; OS X/13.1.0) GCDHTTPRequest
 ```
 
 Response:
+
 ```json
 {
   "event": {
